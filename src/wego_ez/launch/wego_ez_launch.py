@@ -12,7 +12,8 @@ def generate_launch_description():
         Node(
             package='wego_ez',
             executable='distance_calculator',
-            name='distance_calculator'
+            name='distance_calculator',
+            output='screen'
         ),
 
         Node(
