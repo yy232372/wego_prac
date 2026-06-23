@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 import os
 
-package_name = 'wego_ez'
+package_name = 'wego_ez2'
 
 setup(
     name=package_name,
@@ -31,10 +31,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'distance_calculator = wego_ez.lidar:main',
-            'safety_decision = wego_ez.main:main',
-            'drive_limo = wego_ez.motor:main',
-            'scan_roi_filter = wego_ez.scan_roi_filter:main',
+            'distance_calculator = wego_ez2.lidar:main',
+            'safety_decision = wego_ez2.main:main',
+            'drive_limo = wego_ez2.motor:main',
+            'scan_roi_filter = wego_ez2.scan_roi_filter:main',
         ],
     },
 )
