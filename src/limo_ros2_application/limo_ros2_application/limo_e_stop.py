@@ -29,7 +29,6 @@ class LimoEStop(Node):
                 estop.data = True
                 break
 
-        self.get_logger().info(f'e_stop={estop.data}')
         self.publisher_.publish(estop)
 
 def main(args=None):
