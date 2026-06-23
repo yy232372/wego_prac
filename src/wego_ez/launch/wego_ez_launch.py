@@ -25,13 +25,5 @@ def generate_launch_description():
             package='wego_ez',
             executable='drive_limo',
             name='drie_limo'
-        ),
-
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            output='screen',
-            arguments=['-d', rviz_config_path]
         )
     ])
