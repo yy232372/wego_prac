@@ -152,7 +152,6 @@ class MoveToPose(Node):
         while msg.data:
             # if e-stop is on, publish zero velocity
             stop_msg = Twist()
-            stop_msg.linear = 0.0
             self.cmd_pub.publish(stop_msg)
 
 
