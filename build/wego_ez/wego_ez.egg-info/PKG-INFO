@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: wego_ez
-Version: 0.0.0
-Summary: Simple wego EZ ROS2 package for distance safety control
-Maintainer: wego
-Maintainer-email: changmin@wego-robotics.com
-License: Apache-2.0
-Requires-Dist: setuptools
