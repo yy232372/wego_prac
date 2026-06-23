@@ -119,14 +119,16 @@ class MoveToPose(Node):
         if alpha_ > np.pi / 2 or alpha_ < -np.pi / 2:
             v_ = -v_
 
+        # stop immediately if estop is active
+        if self.isstop:
+            stop_msg = Twist()
+            self.cmd_pub.publish(stop_msg)
+            return
+
         # set the ceiling and floor for control data
         msg_ = Twist()
-        if self.isstop:
-            msg_.linear.x = 0.0
-            msg_.angular.z = 0.0
-        else:
-            msg_.linear.x = min(max(v_, -self.max_linear.value), self.max_linear.value) 
-            msg_.angular.z = min(max(w_, -self.max_angular.value), self.max_angular.value)
+        msg_.linear.x = min(max(v_, -self.max_linear.value), self.max_linear.value)
+        msg_.angular.z = min(max(w_, -self.max_angular.value), self.max_angular.value)
 
         # publish command velocity
         self.cmd_pub.publish(msg_)
@@ -156,8 +158,8 @@ class MoveToPose(Node):
 
     def estop_callback(self, msg):
         self.isstop = msg.data
+        self.get_logger().info(f'e_stop={self.isstop}')
         
-
 
 def main(args=None):
     rclpy.init(args=args)
