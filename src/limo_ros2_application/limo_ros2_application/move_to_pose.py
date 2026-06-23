@@ -155,6 +155,7 @@ class MoveToPose(Node):
             self.path.poses.append(point_)
 
     def estop_callback(self, msg):
+        self.get_logger().info(str(msg.data))
         self.isstop = msg.data
         
 
