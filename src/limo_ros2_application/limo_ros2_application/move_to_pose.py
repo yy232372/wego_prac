@@ -51,6 +51,8 @@ class MoveToPose(Node):
         self.cmd_pub = self.create_publisher(Twist, 'cmd_vel', 10)
         self.timer = self.create_timer(0.1, self.control_limo)
 
+        self.isstop = False
+
         # Subscribe to e-stop signal
         self.estop_sub = self.create_subscription(Bool, 'e_stop', self.estop_callback, 10)
         self.estop_sub  # prevent unused variable warning
@@ -119,8 +121,11 @@ class MoveToPose(Node):
 
         # set the ceiling and floor for control data
         msg_ =Twist()
-        msg_.linear.x = min(max(v_, -self.max_linear.value), self.max_linear.value) 
-        msg_.angular.z = min(max(w_, -self.max_angular.value), self.max_angular.value)
+        if self.isstop:
+            msg_ = Twist()
+        else:
+            msg_.linear.x = min(max(v_, -self.max_linear.value), self.max_linear.value) 
+            msg_.angular.z = min(max(w_, -self.max_angular.value), self.max_angular.value)
 
         # publish command velocity
         self.cmd_pub.publish(msg_)
@@ -149,12 +154,8 @@ class MoveToPose(Node):
             self.path.poses.append(point_)
 
     def estop_callback(self, msg):
-        print("before", msg.data)
-        while msg.data:
-            # if e-stop is on, publish zero velocity
-            stop_msg = Twist()
-            self.cmd_pub.publish(stop_msg)
-        print("after", msg.data)
+        self.isstop = msg.data
+        
 
 
 def main(args=None):
