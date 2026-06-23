@@ -57,6 +57,8 @@ class MoveToPose(Node):
         self.estop_sub = self.create_subscription(Bool, 'e_stop', self.estop_callback, 10)
         self.estop_sub  # prevent unused variable warning
 
+        print(self.isstop)
+
         # flag for goal reach
         self.goal_reached = False
 
@@ -155,7 +157,6 @@ class MoveToPose(Node):
             self.path.poses.append(point_)
 
     def estop_callback(self, msg):
-        self.get_logger().info(str(msg.data))
         self.isstop = msg.data
         
 
