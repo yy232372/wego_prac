@@ -34,3 +34,14 @@ class DriveLimo(Node):
         
         self.cmd_pub.publish(speed)
             
+def main(args=None):
+    rclpy.init(args=args)
+
+    drive_limo = DriveLimo()
+    rclpy.spin(drive_limo)
+
+    drive_limo.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
