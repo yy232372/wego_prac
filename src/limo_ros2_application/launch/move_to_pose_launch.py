@@ -38,9 +38,10 @@ def generate_launch_description():
             arguments=['-d', rviz_config_path]
         ),
 
-        # Node(
-        #     package='limo_ros2_application',
-        #     executable='limo_e_stop',
-        #     name='limo_e_stop'
-        # )
+        Node(
+            package='limo_ros2_application',
+            executable='limo_e_stop',
+            name='limo_e_stop',
+            output='screen'
+        )
     ])
