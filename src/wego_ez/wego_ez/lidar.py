@@ -9,7 +9,7 @@ class DistanceCalculator(Node):
         super().__init__('distance_calculator')
         self.subscription = self.create_subscription(
             LaserScan,
-            'scan',
+            '/scan',
             self.laser_callback,
             rclpy.qos.qos_profile_sensor_data)
         self.subscription
@@ -25,7 +25,7 @@ class DistanceCalculator(Node):
             current_angle = msg.angle_min + msg.angle_increment * i
             cx = data * cos(current_angle)
             cy = data * sin(current_angle)
-            if cx > 0.01 and -0.1 < cy < 0.1:
+            if cx > 0.01:
                 dist = sqrt(cx**2 + cy**2)
                 front_dist = min(front_dist, dist)
 
