@@ -31,17 +31,17 @@ def generate_launch_description():
         ),
 
         Node(
+            package='limo_ros2_application',
+            executable='limo_e_stop',
+            name='limo_e_stop',
+            output='screen'
+        ),
+        
+        Node(
             package='rviz2',
             executable='rviz2',
             name='rviz2',
             output='screen',
             arguments=['-d', rviz_config_path]
-        ),
-
-        Node(
-            package='limo_ros2_application',
-            executable='limo_e_stop',
-            name='limo_e_stop',
-            output='screen'
         )
     ])
