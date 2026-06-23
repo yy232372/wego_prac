@@ -149,7 +149,11 @@ class MoveToPose(Node):
             self.path.poses.append(point_)
 
     def estop_callback(self, msg):
-        self.get_logger().info(str(msg.data))
+        if msg.data:
+            # if e-stop is on, publish zero velocity
+            stop_msg = Twist()
+            stop_msg.linear = 0.0
+            self.cmd_pub.publish(stop_msg)
 
 
 def main(args=None):
