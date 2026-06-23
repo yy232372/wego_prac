@@ -22,9 +22,9 @@ class SafetyDecision(Node):
     
     def dist_callback(self, msg):
         state = String()
-        if msg.data <= 0.1:
+        if msg.data <= 0.5:
             state.data = "STOP"
-        elif msg.data <=0.2:
+        elif msg.data <=1.0:
             state.data = "SLOW"
         else:
             state.data = "DRIVE"

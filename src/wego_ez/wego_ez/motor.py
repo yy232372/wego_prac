@@ -28,9 +28,9 @@ class DriveLimo(Node):
         if msg.data == "STOP":
             speed.linear.x = 0.0
         elif msg.data == "SLOW":
-            speed.linear.x = 1.0
+            speed.linear.x = 0.5
         else:
-            speed.linear.x = 2.0
+            speed.linear.x = 1.0
         
         self.cmd_pub.publish(speed)
             
