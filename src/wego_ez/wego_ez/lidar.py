@@ -24,7 +24,7 @@ class DistanceCalculator(Node):
             current_angle = msg.angle_min + msg.angle_increment*i
             cx = data * cos(current_angle)
             cy = data * sin(current_angle)
-            if cx > 0.01 and -0.1 < cy < 0.1:
+            if cx > 0.01:
                 dist = round(sqrt(cx**2+cy**2), 2)
                 front_dist.data = min(front_dist, dist)
 
