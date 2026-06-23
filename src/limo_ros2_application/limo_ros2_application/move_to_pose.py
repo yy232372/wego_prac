@@ -122,7 +122,8 @@ class MoveToPose(Node):
         # set the ceiling and floor for control data
         msg_ =Twist()
         if self.isstop:
-            msg_ = Twist()
+            msg_.linear.x = 0.0
+            msg_.angular.z = 0.0
         else:
             msg_.linear.x = min(max(v_, -self.max_linear.value), self.max_linear.value) 
             msg_.angular.z = min(max(w_, -self.max_angular.value), self.max_angular.value)
