@@ -57,8 +57,6 @@ class MoveToPose(Node):
         self.estop_sub = self.create_subscription(Bool, 'e_stop', self.estop_callback, 10)
         self.estop_sub  # prevent unused variable warning
 
-        self.get_logger().info(self.isstop)
-
         # flag for goal reach
         self.goal_reached = False
 
@@ -122,7 +120,7 @@ class MoveToPose(Node):
             v_ = -v_
 
         # set the ceiling and floor for control data
-        msg_ =Twist()
+        msg_ = Twist()
         if self.isstop:
             msg_.linear.x = 0.0
             msg_.angular.z = 0.0

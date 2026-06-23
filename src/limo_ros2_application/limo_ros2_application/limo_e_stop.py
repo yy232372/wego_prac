@@ -27,9 +27,9 @@ class LimoEStop(Node):
             cy = data * sin(current_angle)
             if 0.01 < cx <0.2 and -0.1 < cy < 0.1:
                 estop.data = True
-                self.get_logger().info(str(estop.data))
                 break
 
+        self.get_logger().info(f'e_stop={estop.data}')
         self.publisher_.publish(estop)
 
 def main(args=None):
