@@ -51,9 +51,9 @@ class MoveToPose(Node):
         self.cmd_pub = self.create_publisher(Twist, 'cmd_vel', 10)
         self.timer = self.create_timer(0.1, self.control_limo)
 
-        # Subscribe estop.data
-        self.estop_sub = self.create_subscription(Bool, '/e_stop', self.estop_callback, 10)
-        self.estop_sub
+        # Subscribe to e-stop signal
+        self.estop_sub = self.create_subscription(Bool, 'e_stop', self.estop_callback, 10)
+        self.estop_sub  # prevent unused variable warning
 
         # flag for goal reach
         self.goal_reached = False
