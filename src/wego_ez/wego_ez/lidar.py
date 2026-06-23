@@ -28,7 +28,7 @@ class DistanceCalculator(Node):
                 dist = round(sqrt(cx**2+cy**2), 2)
                 front_dist.data = min(front_dist, dist)
 
-        print("The closest distance: ", front_dist)
+        self.get_logger().info(f"The closest distance: {front_dist:.2f} m")
         self.publisher_.publish(front_dist)
 
 import rclpy
