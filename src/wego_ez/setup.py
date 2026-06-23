@@ -1,15 +1,16 @@
-from setuptools import setup
+from setuptools import find_packages, setup
+import os
 
 package_name = 'wego_ez'
 
 setup(
     name=package_name,
     version='0.0.0',
-    packages=[],
-    py_modules=['lidar', 'main', 'motor'],
+    packages=find_packages(exclude=['test']),
+    package_dir={'': 'src'},
     data_files=[
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch', ['wego_ez_launch.py']),
+        (os.path.join('share', package_name, 'launch'), ['launch/wego_ez_launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -20,9 +21,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'distance_calculator = lidar:main',
-            'safety_decision = main:main',
-            'drive_limo = motor:main',
+            'distance_calculator = wego_ez.lidar:main',
+            'safety_decision = wego_ez.main:main',
+            'drive_limo = wego_ez.motor:main',
         ],
     },
 )
