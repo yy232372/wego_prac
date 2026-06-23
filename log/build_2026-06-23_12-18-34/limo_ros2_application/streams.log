@@ -1,0 +1,55 @@
+[1.942s] Invoking command in '/home/wego/wego_prac/src/limo_ros2_application': PYTHONPATH=/home/wego/wego_prac/build/limo_ros2_application/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/wego/wego_prac/install/limo_ros2_application/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/limo_ros2_application build --build-base /home/wego/wego_prac/build/limo_ros2_application/build install --record /home/wego/wego_prac/build/limo_ros2_application/install.log --single-version-externally-managed install_data
+[2.609s] running egg_info
+[2.653s] writing ../../build/limo_ros2_application/limo_ros2_application.egg-info/PKG-INFO
+[2.654s] writing dependency_links to ../../build/limo_ros2_application/limo_ros2_application.egg-info/dependency_links.txt
+[2.655s] writing entry points to ../../build/limo_ros2_application/limo_ros2_application.egg-info/entry_points.txt
+[2.655s] writing requirements to ../../build/limo_ros2_application/limo_ros2_application.egg-info/requires.txt
+[2.655s] writing top-level names to ../../build/limo_ros2_application/limo_ros2_application.egg-info/top_level.txt
+[2.744s] reading manifest file '../../build/limo_ros2_application/limo_ros2_application.egg-info/SOURCES.txt'
+[2.746s] writing manifest file '../../build/limo_ros2_application/limo_ros2_application.egg-info/SOURCES.txt'
+[2.746s] running build
+[2.747s] running build_py
+[2.747s] copying limo_ros2_application/drive_through_pose.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.748s] copying limo_ros2_application/nav_utils.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.748s] copying limo_ros2_application/move_to_pose.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.748s] copying limo_ros2_application/lets_take_a_picture.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.748s] copying limo_ros2_application/__init__.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.749s] copying limo_ros2_application/patrol_limo.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.749s] copying limo_ros2_application/detect_line.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.749s] copying limo_ros2_application/move_limo.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.750s] copying limo_ros2_application/limo_control.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.750s] copying limo_ros2_application/rotate_absolue.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.750s] copying limo_ros2_application/detect_hump.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.751s] copying limo_ros2_application/detect_object.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.751s] copying limo_ros2_application/limo_e_stop.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.752s] copying limo_ros2_application/dl_detect_line.py -> /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application
+[2.752s] running install
+[2.762s] running install_lib
+[2.805s] copying /home/wego/wego_prac/build/limo_ros2_application/build/lib/limo_ros2_application/move_to_pose.py -> /home/wego/wego_prac/install/limo_ros2_application/lib/python3.10/site-packages/limo_ros2_application
+[2.807s] byte-compiling /home/wego/wego_prac/install/limo_ros2_application/lib/python3.10/site-packages/limo_ros2_application/move_to_pose.py to move_to_pose.cpython-310.pyc
+[2.810s] running install_data
+[2.810s] copying package.xml -> /home/wego/wego_prac/install/limo_ros2_application/share/limo_ros2_application
+[2.810s] copying launch/move_to_pose_launch.py -> /home/wego/wego_prac/install/limo_ros2_application/share/limo_ros2_application/launch
+[2.811s] copying launch/track_application_launch.py -> /home/wego/wego_prac/install/limo_ros2_application/share/limo_ros2_application/launch
+[2.811s] copying params/detect_line.yaml -> /home/wego/wego_prac/install/limo_ros2_application/share/limo_ros2_application/params
+[2.811s] copying params/move_to_pose.yaml -> /home/wego/wego_prac/install/limo_ros2_application/share/limo_ros2_application/params
+[2.812s] copying params/limo_control.yaml -> /home/wego/wego_prac/install/limo_ros2_application/share/limo_ros2_application/params
+[2.812s] copying weight/dl_drive.h5 -> /home/wego/wego_prac/install/limo_ros2_application/share/limo_ros2_application/weight
+[2.867s] copying rviz/move_to_pose.rviz -> /home/wego/wego_prac/install/limo_ros2_application/share/limo_ros2_application/rviz
+[2.868s] running install_egg_info
+[2.913s] removing '/home/wego/wego_prac/install/limo_ros2_application/lib/python3.10/site-packages/limo_ros2_application-0.0.0-py3.10.egg-info' (and everything under it)
+[2.914s] Copying ../../build/limo_ros2_application/limo_ros2_application.egg-info to /home/wego/wego_prac/install/limo_ros2_application/lib/python3.10/site-packages/limo_ros2_application-0.0.0-py3.10.egg-info
+[2.916s] running install_scripts
+[3.263s] Installing detect_line script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.263s] Installing detect_object script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.263s] Installing dl_detect_line script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.264s] Installing drive_through_pose script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.264s] Installing lets_take_a_picture script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.264s] Installing limo_control script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.264s] Installing limo_e_stop script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.265s] Installing move_limo script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.265s] Installing move_to_pose script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.265s] Installing patrol_limo script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.266s] Installing rotate_absolute script to /home/wego/wego_prac/install/limo_ros2_application/lib/limo_ros2_application
+[3.267s] writing list of installed files to '/home/wego/wego_prac/build/limo_ros2_application/install.log'
+[3.345s] Invoked command in '/home/wego/wego_prac/src/limo_ros2_application' returned '0': PYTHONPATH=/home/wego/wego_prac/build/limo_ros2_application/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/wego/wego_prac/install/limo_ros2_application/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/limo_ros2_application build --build-base /home/wego/wego_prac/build/limo_ros2_application/build install --record /home/wego/wego_prac/build/limo_ros2_application/install.log --single-version-externally-managed install_data

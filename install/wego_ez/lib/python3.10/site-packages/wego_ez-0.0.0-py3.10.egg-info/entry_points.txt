@@ -1,0 +1,4 @@
+[console_scripts]
+distance_calculator = lidar:main
+drive_limo = motor:main
+safety_decision = main:main

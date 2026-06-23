@@ -1,0 +1,36 @@
+running egg_info
+creating ../build/wego_ez/wego_ez.egg-info
+writing ../build/wego_ez/wego_ez.egg-info/PKG-INFO
+writing dependency_links to ../build/wego_ez/wego_ez.egg-info/dependency_links.txt
+writing entry points to ../build/wego_ez/wego_ez.egg-info/entry_points.txt
+writing requirements to ../build/wego_ez/wego_ez.egg-info/requires.txt
+writing top-level names to ../build/wego_ez/wego_ez.egg-info/top_level.txt
+writing manifest file '../build/wego_ez/wego_ez.egg-info/SOURCES.txt'
+reading manifest file '../build/wego_ez/wego_ez.egg-info/SOURCES.txt'
+writing manifest file '../build/wego_ez/wego_ez.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/wego/wego_prac/build/wego_ez/build
+creating /home/wego/wego_prac/build/wego_ez/build/lib
+copying lidar.py -> /home/wego/wego_prac/build/wego_ez/build/lib
+copying main.py -> /home/wego/wego_prac/build/wego_ez/build/lib
+copying motor.py -> /home/wego/wego_prac/build/wego_ez/build/lib
+running install
+running install_lib
+copying /home/wego/wego_prac/build/wego_ez/build/lib/main.py -> /home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages
+copying /home/wego/wego_prac/build/wego_ez/build/lib/motor.py -> /home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages
+copying /home/wego/wego_prac/build/wego_ez/build/lib/lidar.py -> /home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages
+byte-compiling /home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages/main.py to main.cpython-310.pyc
+byte-compiling /home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages/motor.py to motor.cpython-310.pyc
+byte-compiling /home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages/lidar.py to lidar.cpython-310.pyc
+running install_data
+copying package.xml -> /home/wego/wego_prac/install/wego_ez/share/wego_ez
+creating /home/wego/wego_prac/install/wego_ez/share/wego_ez/launch
+copying wego_ez_launch.py -> /home/wego/wego_prac/install/wego_ez/share/wego_ez/launch
+running install_egg_info
+Copying ../build/wego_ez/wego_ez.egg-info to /home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages/wego_ez-0.0.0-py3.10.egg-info
+running install_scripts
+Installing distance_calculator script to /home/wego/wego_prac/install/wego_ez/bin
+Installing drive_limo script to /home/wego/wego_prac/install/wego_ez/bin
+Installing safety_decision script to /home/wego/wego_prac/install/wego_ez/bin
+writing list of installed files to '/home/wego/wego_prac/build/wego_ez/install.log'

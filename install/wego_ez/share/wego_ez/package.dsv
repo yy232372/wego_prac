@@ -1,0 +1,12 @@
+source;share/wego_ez/hook/path.ps1
+source;share/wego_ez/hook/path.dsv
+source;share/wego_ez/hook/path.sh
+source;share/wego_ez/hook/pythonpath.ps1
+source;share/wego_ez/hook/pythonpath.dsv
+source;share/wego_ez/hook/pythonpath.sh
+source;share/wego_ez/hook/pythonscriptspath.ps1
+source;share/wego_ez/hook/pythonscriptspath.dsv
+source;share/wego_ez/hook/pythonscriptspath.sh
+source;share/wego_ez/hook/ament_prefix_path.ps1
+source;share/wego_ez/hook/ament_prefix_path.dsv
+source;share/wego_ez/hook/ament_prefix_path.sh

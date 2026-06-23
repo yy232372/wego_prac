@@ -1,0 +1,26 @@
+[2.125s] Invoking command in '/home/wego/wego_prac/src/wego_ez': PYTHONPATH=/home/wego/wego_prac/build/wego_ez/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/wego_ez build --build-base /home/wego/wego_prac/build/wego_ez/build install --record /home/wego/wego_prac/build/wego_ez/install.log --single-version-externally-managed install_data
+[2.794s] running egg_info
+[2.839s] writing ../../build/wego_ez/wego_ez.egg-info/PKG-INFO
+[2.840s] writing dependency_links to ../../build/wego_ez/wego_ez.egg-info/dependency_links.txt
+[2.841s] writing entry points to ../../build/wego_ez/wego_ez.egg-info/entry_points.txt
+[2.841s] writing requirements to ../../build/wego_ez/wego_ez.egg-info/requires.txt
+[2.841s] writing top-level names to ../../build/wego_ez/wego_ez.egg-info/top_level.txt
+[2.889s] file lidar.py (for module lidar) not found
+[2.890s] file main.py (for module main) not found
+[2.890s] file motor.py (for module motor) not found
+[2.932s] reading manifest file '../../build/wego_ez/wego_ez.egg-info/SOURCES.txt'
+[2.933s] writing manifest file '../../build/wego_ez/wego_ez.egg-info/SOURCES.txt'
+[2.934s] running build
+[2.934s] running build_py
+[2.935s] file lidar.py (for module lidar) not found
+[2.935s] file main.py (for module main) not found
+[2.935s] file motor.py (for module motor) not found
+[2.935s] file lidar.py (for module lidar) not found
+[2.935s] file main.py (for module main) not found
+[2.935s] file motor.py (for module motor) not found
+[2.935s] running install
+[2.945s] running install_lib
+[2.990s] running install_data
+[2.991s] copying package.xml -> /home/wego/wego_prac/install/wego_ez/share/wego_ez
+[2.991s] error: can't copy 'wego_ez_launch.py': doesn't exist or not a regular file
+[3.061s] Invoked command in '/home/wego/wego_prac/src/wego_ez' returned '1': PYTHONPATH=/home/wego/wego_prac/build/wego_ez/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/wego/wego_prac/install/wego_ez/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/wego_ez build --build-base /home/wego/wego_prac/build/wego_ez/build install --record /home/wego/wego_prac/build/wego_ez/install.log --single-version-externally-managed install_data
