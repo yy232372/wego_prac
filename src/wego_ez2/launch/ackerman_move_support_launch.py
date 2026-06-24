@@ -17,9 +17,7 @@ def generate_launch_description():
                 'port_name': 'ttylimo',
                 'odom_frame': 'odom',
                 'base_frame': 'base_link',
-                'odom_topic_name': 'odom',
                 'pub_odom_tf': True,
-                'control_rate': 50,
             }]
         ),
 
@@ -31,16 +29,16 @@ def generate_launch_description():
             name='goal_pose_publisher',
             output='screen',
             arguments=[
-                '1.0', '0.0', '0.0',      # x y z
-                '0.0', '0.0', '0.0', '1.0',  # qx qy qz qw
+                '1.0', '0.0', '0.0',          # x y z
+                '0.0', '0.0', '0.0', '1.0',   # qx qy qz qw
                 'odom',
                 'goal_pose'
             ]
         ),
 
-        # 5. move_to_pose의 /cmd_vel을 Ackermann driver의 /limo/ack_cmd로 변환
+        # 5. /cmd_vel(Twist)을 /limo/ack_cmd(AckermannDrive)로 변환
         Node(
-            package='wego_ez',
+            package='wego_ez2',
             executable='twist_to_ackermann',
             name='twist_to_ackermann',
             output='screen'
