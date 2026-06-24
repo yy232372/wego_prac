@@ -18,7 +18,6 @@ class MoveToPose(Node):
         # =========================
         # TF 설정
         # =========================
-        # TransformListener가 내부적으로 /tf, /tf_static을 구독함
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
 
@@ -49,23 +48,37 @@ class MoveToPose(Node):
         # 장애물 회피 설정
         # =========================
 
-        # 정면 장애물이 이 거리보다 가까우면 무조건 정지
-        self.stop_distance = 0.20
+        # 너무 가까우면 충돌 방지용 완전 정지
+        # 단, 너무 크게 잡으면 또 멈추기만 하니까 아주 작게 둠
+        self.emergency_stop_distance = 0.08
 
-        # 정면 장애물이 이 거리보다 가까우면 우회
-        self.avoid_distance = 0.60
+        # 이 거리 안에 정면 장애물이 들어오면 미리 우회 시작
+        self.avoid_enter_distance = 1.00
 
-        # 우회 중 속도
-        self.avoid_linear = 0.08
-        self.avoid_angular = 0.55
+        # 이 거리보다 정면이 충분히 멀어져야 우회 종료
+        # enter보다 크게 잡아서 바로 복귀하지 않게 함
+        self.avoid_exit_distance = 1.30
+
+        # 한 번 우회 시작하면 최소 이 시간 동안은 우회 유지
+        self.min_avoid_time = 1.5
+
+        # 우회 속도
+        self.avoid_linear = 0.20
+        self.avoid_angular = 0.95
+
+        # 너무 가까울 때 후진 회피 속도
+        self.escape_distance = 0.20
+        self.escape_linear = -0.08
+        self.escape_angular = 0.90
 
         # 라이다 각도 영역
-        # 정면: -20도 ~ +20도
-        # 왼쪽: +20도 ~ +60도
-        # 오른쪽: -60도 ~ -20도
-        self.front_angle = math.radians(20.0)
-        self.side_min_angle = math.radians(20.0)
-        self.side_max_angle = math.radians(60.0)
+        # 정면을 조금 넓게 봐야 얇은 장애물을 미리 감지함
+        # 정면: -30도 ~ +30도
+        # 왼쪽: +30도 ~ +75도
+        # 오른쪽: -75도 ~ -30도
+        self.front_angle = math.radians(30.0)
+        self.side_min_angle = math.radians(30.0)
+        self.side_max_angle = math.radians(75.0)
 
         # 라이다 거리 초기값
         self.scan_received = False
@@ -73,8 +86,10 @@ class MoveToPose(Node):
         self.left_dist = float('inf')
         self.right_dist = float('inf')
 
-        # 상태는 STOP / DRIVE 두 개만 사용
-        self.safety_state = "STOP"
+        # 우회 상태 저장
+        self.avoid_mode = False
+        self.avoid_direction = 1.0
+        self.avoid_start_time = None
 
         self.goal_reached = False
 
@@ -99,7 +114,6 @@ class MoveToPose(Node):
         # =========================
         # Subscriber
         # =========================
-        # ROI 처리된 라이다 데이터 구독
         self.scan_sub = self.create_subscription(
             LaserScan,
             '/scan_roi',
@@ -107,8 +121,6 @@ class MoveToPose(Node):
             rclpy.qos.qos_profile_sensor_data
         )
 
-        # 경로 기록용 odometry
-        # /odometry/filtered가 없으면 경로 시각화만 안 될 수 있음
         self.odom_sub = self.create_subscription(
             Odometry,
             'odometry/filtered',
@@ -116,14 +128,16 @@ class MoveToPose(Node):
             10
         )
 
-        # 0.1초마다 제어 실행
+        # =========================
+        # Timer
+        # =========================
         self.timer = self.create_timer(
             0.1,
             self.control_limo
         )
 
         self.get_logger().info(
-            'move_to_pose started: STOP/DRIVE + obstacle avoidance'
+            'move_to_pose started: early obstacle avoidance + hold turn'
         )
 
     # ============================================================
@@ -161,12 +175,6 @@ class MoveToPose(Node):
         self.right_dist = right_dist
         self.scan_received = True
 
-        # STOP / DRIVE 두 조건만 사용
-        if self.front_dist <= self.stop_distance:
-            self.safety_state = "STOP"
-        else:
-            self.safety_state = "DRIVE"
-
     # ============================================================
     # Odometry 콜백: 경로 저장용
     # ============================================================
@@ -180,35 +188,91 @@ class MoveToPose(Node):
     # 제어 메인 함수
     # ============================================================
     def control_limo(self):
-        # 라이다 데이터가 아직 없으면 안전하게 정지
         if not self.scan_received:
             self.publish_stop()
             return
 
-        # 목표 도착 후에는 정지 유지
         if self.goal_reached:
             self.publish_stop()
             return
 
-        # =========================
-        # 1. STOP 조건
-        # =========================
-        if self.safety_state == "STOP":
+        # 1. 정말 너무 가까우면 완전 정지
+        if self.front_dist <= self.emergency_stop_distance:
             self.publish_stop()
+            self.get_logger().warn(
+                f'EMERGENCY STOP | front: {self.front_dist:.2f}'
+            )
             return
 
-        # =========================
-        # 2. DRIVE 상태에서 우회 판단
-        # =========================
-        # 정면 장애물이 avoid_distance 안에 있으면 우회
-        if self.front_dist <= self.avoid_distance:
-            self.publish_avoid_cmd()
+        # 2. 매우 가까우면 후진하면서 회피
+        # Ackermann은 제자리 회전이 안 되므로, 후진 속도를 같이 줌
+        if self.front_dist <= self.escape_distance:
+            self.start_or_keep_avoid_mode()
+            self.publish_escape_cmd()
             return
 
-        # =========================
-        # 3. 장애물이 없으면 기존 목표점 추종
-        # =========================
+        # 3. 우회 진입 조건
+        if not self.avoid_mode and self.front_dist <= self.avoid_enter_distance:
+            self.start_avoid_mode()
+
+        # 4. 우회 모드 유지 / 종료 판단
+        if self.avoid_mode:
+            if self.can_exit_avoid_mode():
+                self.avoid_mode = False
+                self.get_logger().info('AVOID END -> GO TO GOAL')
+            else:
+                self.publish_avoid_cmd()
+                return
+
+        # 5. 장애물이 없으면 기존 목표점 추종
         self.publish_go_to_goal_cmd()
+
+    # ============================================================
+    # 우회 시작
+    # ============================================================
+    def start_avoid_mode(self):
+        self.avoid_mode = True
+        self.avoid_start_time = self.get_clock().now()
+
+        # 우회 방향 결정
+        # 왼쪽 공간이 더 넓으면 왼쪽으로, 오른쪽이 넓으면 오른쪽으로
+        if self.left_dist >= self.right_dist:
+            self.avoid_direction = 1.0
+        else:
+            self.avoid_direction = -1.0
+
+        self.get_logger().info(
+            f'AVOID START | dir: {self.avoid_direction}, '
+            f'front: {self.front_dist:.2f}, '
+            f'left: {self.left_dist:.2f}, right: {self.right_dist:.2f}'
+        )
+
+    # ============================================================
+    # 이미 우회 중이면 방향 유지
+    # ============================================================
+    def start_or_keep_avoid_mode(self):
+        if not self.avoid_mode:
+            self.start_avoid_mode()
+
+    # ============================================================
+    # 우회 종료 조건
+    # ============================================================
+    def can_exit_avoid_mode(self):
+        if self.avoid_start_time is None:
+            return False
+
+        now = self.get_clock().now()
+        elapsed = (now - self.avoid_start_time).nanoseconds / 1e9
+
+        # 최소 우회 시간 전에는 종료 금지
+        if elapsed < self.min_avoid_time:
+            return False
+
+        # 정면이 충분히 멀어져야 종료
+        if self.front_dist < self.avoid_exit_distance:
+            return False
+
+        return True
 
     # ============================================================
     # 정지 명령
@@ -220,25 +284,39 @@ class MoveToPose(Node):
         self.cmd_pub.publish(msg)
 
     # ============================================================
-    # 우회 명령
+    # 너무 가까울 때 후진 회피
+    # ============================================================
+    def publish_escape_cmd(self):
+        msg = Twist()
+
+        # Ackermann은 제자리 회전 불가
+        # 후진하면서 조향해야 방향이 바뀜
+        msg.linear.x = self.escape_linear
+        msg.angular.z = self.avoid_direction * self.escape_angular
+
+        self.cmd_pub.publish(msg)
+
+        self.get_logger().info(
+            f'ESCAPE | front: {self.front_dist:.2f}, '
+            f'left: {self.left_dist:.2f}, right: {self.right_dist:.2f}'
+        )
+
+    # ============================================================
+    # 일반 우회 명령
     # ============================================================
     def publish_avoid_cmd(self):
         msg = Twist()
 
-        # 천천히 전진하면서 회피
+        # 얇은 장애물에서 꺾다가 말지 않게 어느 정도 속도와 조향을 줌
         msg.linear.x = self.avoid_linear
-
-        # 왼쪽과 오른쪽 중 더 넓은 쪽으로 회전
-        if self.left_dist >= self.right_dist:
-            msg.angular.z = self.avoid_angular
-        else:
-            msg.angular.z = -self.avoid_angular
+        msg.angular.z = self.avoid_direction * self.avoid_angular
 
         self.cmd_pub.publish(msg)
 
         self.get_logger().info(
             f'AVOID | front: {self.front_dist:.2f}, '
-            f'left: {self.left_dist:.2f}, right: {self.right_dist:.2f}'
+            f'left: {self.left_dist:.2f}, right: {self.right_dist:.2f}, '
+            f'dir: {self.avoid_direction}'
         )
 
     # ============================================================
@@ -246,7 +324,6 @@ class MoveToPose(Node):
     # ============================================================
     def publish_go_to_goal_cmd(self):
         try:
-            # base_link 기준 goal_pose 위치/자세 조회
             t = self.tf_buffer.lookup_transform(
                 'base_link',
                 'goal_pose',
@@ -264,16 +341,10 @@ class MoveToPose(Node):
         yaw = self.get_yaw_from_quaternion(t.transform.rotation)
         yaw_diff = self.normalize_angle(yaw)
 
-        # 목표까지 거리
         rho = np.hypot(y_diff, x_diff)
-
-        # 목표 방향
         alpha = self.normalize_angle(np.arctan2(y_diff, x_diff))
-
-        # 최종 목표 자세 보정값
         beta = self.normalize_angle(yaw_diff - alpha)
 
-        # 목표 도착 판단
         if rho < self.xy_tolerance.value and abs(yaw_diff) < self.yaw_tolerance.value:
             self.goal_reached = True
 
@@ -284,16 +355,13 @@ class MoveToPose(Node):
             self.get_logger().info('Goal reached')
             return
 
-        # 선속도
         v = self.Kp_rho.value * rho
 
-        # 각속도
         if rho > self.xy_tolerance.value:
             w = self.Kp_alpha.value * alpha - self.Kp_beta.value * beta
         else:
             w = self.Kp_beta.value * self.normalize_angle(yaw_diff)
 
-        # 목표가 뒤쪽에 있으면 후진
         if alpha > np.pi / 2 or alpha < -np.pi / 2:
             v = -v
 
