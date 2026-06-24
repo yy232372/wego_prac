@@ -37,6 +37,7 @@ setup(
             'drive_limo = wego_ez2.motor:main',
             'scan_roi_filter = wego_ez2.scan_roi_filter:main',
             'twist_to_ackermann = wego_ez2.twist_to_ackermann:main',
+            'move_to_pose = wego_ez2.move_to_pose:main',
         ],
     },
 )
