@@ -29,7 +29,7 @@ def generate_launch_description():
             name='goal_pose_publisher',
             output='screen',
             arguments=[
-                '3.0', '-1.0', '0.0',          # x y z
+                '3.0', '0.4', '0.0',          # x y z
                 '0.0', '0.0', '0.0', '1.0',   # qx qy qz qw
                 'odom',
                 'goal_pose'
